@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class LaserTurret : MonoBehaviour
 {
     public GameObject activeTarget;
     public GameObject bullet;
     public GameObject bulletSpot;
+
+    public GameObject laserBarrel;
+
+    LineRenderer lineRenderer = new LineRenderer();
 
     bool readyToFire = true;
 
@@ -16,6 +20,8 @@ public class Turret : MonoBehaviour
     public int id;
 
     bool attacking;
+
+    Rigidbody barrelRigid;
 
     private bool initialize;
     public bool Initialize
@@ -50,6 +56,7 @@ public class Turret : MonoBehaviour
         EnemyTracker.Instance.turretList.Add(GetComponent<Turret>());
         id = EnemyTracker.Instance.GenerateID("turret");
         StartCoroutine(CalculateEnemyDistances());
+        barrelRigid = laserBarrel.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -62,6 +69,7 @@ public class Turret : MonoBehaviour
                 transform.LookAt(activeTarget.transform.position);
             }
         }
+        barrelRigid.AddRelativeForce(20, 0, 0, ForceMode.Force);
     }
     IEnumerator CalculateEnemyDistances()
     {
@@ -92,7 +100,7 @@ public class Turret : MonoBehaviour
 
         if(readyToFire)
         {
-           ShootBullet();
+           ShootLaser();
             StartCoroutine(ShootTimer());
         }
     }
@@ -106,11 +114,9 @@ public class Turret : MonoBehaviour
         }
     }
 
-    void ShootBullet()
+    void ShootLaser()
     {
-        GameObject b = Instantiate(bullet, bulletSpot.transform.position, bulletSpot.transform.rotation);
-        b.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * Random.Range(60f, 80f), ForceMode.Impulse);
-        Destroy(b, 2f);
+        
     }
 
     IEnumerator ShootTimer()
