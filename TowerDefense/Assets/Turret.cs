@@ -5,6 +5,7 @@ using UnityEngine;
 public class Turret : MonoBehaviour {
 
     public GameObject spider;
+    public int range;
 
 	void Start () {
 		
@@ -12,5 +13,7 @@ public class Turret : MonoBehaviour {
 	
 	void Update () {
         transform.LookAt(spider.transform.position);
+
 	}
+
 }

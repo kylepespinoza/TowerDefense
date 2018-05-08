@@ -5,7 +5,7 @@ using UnityEngine;
 public class FireZone : MonoBehaviour {
 
     public GameObject gun;
-
+    
     public GameObject bullet;
 
     private void Start()
