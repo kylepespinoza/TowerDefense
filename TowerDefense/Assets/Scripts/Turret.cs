@@ -17,6 +17,8 @@ public class Turret : MonoBehaviour
 
     bool attacking;
 
+    public float shotSpeed;
+
     private bool initialize;
     public bool Initialize
     {
@@ -29,8 +31,8 @@ public class Turret : MonoBehaviour
             initialize = value;
             if (value == true)
             {
-                if(!attacking)
-                Debug.Log("Calculating Enemy Distances");
+                if (!attacking)
+                    Debug.Log("Calculating Enemy Distances");
                 StartCoroutine(CalculateEnemyDistances());
                 //StartCoroutine(ShootBullet());
                 attacking = true;
@@ -90,9 +92,9 @@ public class Turret : MonoBehaviour
             activeTarget = null;
         }
 
-        if(readyToFire)
+        if (readyToFire)
         {
-           ShootBullet();
+            ShootBullet();
             StartCoroutine(ShootTimer());
         }
     }
@@ -109,7 +111,7 @@ public class Turret : MonoBehaviour
     void ShootBullet()
     {
         GameObject b = Instantiate(bullet, bulletSpot.transform.position, bulletSpot.transform.rotation);
-        b.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * Random.Range(60f, 80f), ForceMode.Impulse);
+        b.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * Random.Range(shotSpeed - 10f, shotSpeed + 10f), ForceMode.Impulse);
         Destroy(b, 2f);
     }
 
